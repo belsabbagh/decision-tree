@@ -20,7 +20,7 @@ def build_decision_tree(df: pd.DataFrame, label: str) -> dict:
     return _id3(df, label, [], {})
 
 
-def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> dict:
+def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> str | dict:
     """The id3 algorithm that recursively builds the decision tree.
     The algorithm stops when all the features are visited or when the given dataset label has only one unique value.
     How it works:
@@ -37,7 +37,7 @@ def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> dict:
         tree (dict): The decision tree.
 
     Returns:
-        dict: A dictionary representing the decision tree for the given dataset.
+        str | dict: A dictionary representing the decision tree for the given dataset.
     """    
     feature = max_info_gain_feature(df, label)
     tree[feature] = {}
