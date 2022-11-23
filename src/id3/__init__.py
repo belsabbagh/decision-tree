@@ -45,10 +45,7 @@ def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> str | dict:
         return _get_first_label_value(df, label)
     if feature not in visited:
         visited.append(feature)
-        feat_val_groups = df.groupby(feature)
-        tree[feature] = {i: {} for i, _ in feat_val_groups}
-        for feat_val, sub_frame in feat_val_groups:
-            tree[feature].update({feat_val: _id3(sub_frame, label, visited, tree[feature][feat_val])})
+        tree[feature] = {v: _id3(v_grp, label, visited, tree[feature].get(v, {})) for v, v_grp in df.groupby(feature)}
     return tree
 
 
