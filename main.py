@@ -1,8 +1,8 @@
 import pandas as pd
 
-from src.id3 import id3
+from src.id3 import build_decision_tree
 
 if __name__ == '__main__':
     df = pd.read_csv('data/tennis.csv')
-    tree = id3(df, 'Play')
+    tree = build_decision_tree(df, 'Play')
     print(tree)
