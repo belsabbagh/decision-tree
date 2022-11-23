@@ -3,4 +3,4 @@ An implementation of the id3 algorithm that builds a decision tree using a given
 ## Test Case
 ### tennis.csv
 #### tree solution
-![Solution for the tennis.csv dataset](data\tennis.csv-solution.png "Solution for the tennis.csv dataset")
+![Solution for the tennis.csv dataset](/data/tennis.csv-solution.png "Solution for the tennis.csv dataset")
