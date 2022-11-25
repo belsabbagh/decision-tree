@@ -1,6 +1,7 @@
 """
 This module contains the functions that build the decision tree using the id3 algorithm.
 """
+from collections import defaultdict
 
 import pandas as pd
 
@@ -17,7 +18,7 @@ def build_decision_tree(df: pd.DataFrame, label: str) -> dict:
     Returns:
         dict:  A dictionary representing the decision tree for the given dataset.
     """
-    return _id3(df, label, [], {})
+    return _id3(df, label, [], defaultdict(lambda: {}))
 
 
 def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> str | dict:
@@ -40,12 +41,12 @@ def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> str | dict:
         str | dict: A dictionary representing the decision tree for the given dataset.
     """    
     feature = max_info_gain_feature(df, label)
-    tree[feature] = {}
+    tree[feature] = defaultdict(lambda: {})
     if _label_has_one_unique_value(df, label):
         return _get_first_label_value(df, label)
     if feature not in visited:
         visited.append(feature)
-        tree[feature] = {v: _id3(v_grp, label, visited, tree[feature].get(v, {})) for v, v_grp in df.groupby(feature)}
+        tree[feature] = {v: _id3(v_grp, label, visited, tree[feature][v]) for v, v_grp in df.groupby(feature)}
     return tree
 
 
