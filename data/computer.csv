@@ -1,0 +1,15 @@
+Age,Salary,Student,Credit,Buy
+Young,High,No,Ok,No
+Young,High,No,Good,No
+Middle,High,No,Ok,Yes
+Old,Middle,No,Ok,Yes
+Old,Low,Yes,Ok,Yes
+Old,Low,Yes,Good,No
+Middle,Low,Yes,Good,Yes
+Young,Middle,No,Ok,No
+Young,Low,Yes,Ok,Yes
+Old,Middle,Yes,Ok,Yes
+Young,Middle,Yes,Good,Yes
+Middle,Middle,No,Good,Yes
+Middle,High,Yes,Ok,Yes
+Old,Middle,No,Good,No

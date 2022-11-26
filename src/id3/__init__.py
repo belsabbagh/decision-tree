@@ -38,12 +38,12 @@ def _id3(df: pd.DataFrame, label: str, tree: dict) -> str | dict:
     Returns:
         str | dict: A dictionary representing the decision tree for the given dataset.
     """
-    f = max_info_gain_feature(df, label)
-    tree[f] = {}
-    subtree = tree[f]
     if _label_has_one_unique_value(df, label):
         return _get_first_label_value(df, label)
-    tree[f] = {v: _id3(_exclude_df_feature(v_grp, f), label, subtree.get(v, {})) for v, v_grp in df.groupby(f)}
+    f = max_info_gain_feature(df, label)
+    tree[f] = {}
+    for v, v_grp in df.groupby(f):
+        tree[f][v] = _id3(_exclude_df_feature(v_grp, f), label, tree[f].get(v, {}))
     return tree
 
 

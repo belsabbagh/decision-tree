@@ -11,7 +11,7 @@ def dict_to_json_file(file_path, d):
 
 
 if __name__ == '__main__':
-    df = pd.read_csv('data/tennis.csv')
-    tree = build_decision_tree(df, 'Play')
+    df = pd.read_csv('data/bear.csv')
+    tree = build_decision_tree(df, 'Class')
     dict_to_json_file('out/id3-tree.json', tree)
     print(tree)
