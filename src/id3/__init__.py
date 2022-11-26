@@ -1,7 +1,6 @@
 """
 This module contains the functions that build the decision tree using the id3 algorithm.
 """
-from collections import defaultdict
 
 import pandas as pd
 
@@ -18,10 +17,10 @@ def build_decision_tree(df: pd.DataFrame, label: str) -> dict:
     Returns:
         dict:  A dictionary representing the decision tree for the given dataset.
     """
-    return _id3(df, label, [], defaultdict(lambda: {}))
+    return _id3(df, label, {})
 
 
-def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> str | dict:
+def _id3(df: pd.DataFrame, label: str, tree: dict) -> str | dict:
     """The id3 algorithm that recursively builds the decision tree.
     The algorithm stops when all the features are visited or when the given dataset label has only one unique value.
     How it works:
@@ -34,19 +33,17 @@ def _id3(df: pd.DataFrame, label: str, visited: list, tree: dict) -> str | dict:
     Args:
         df (pd.DataFrame): The dataset to build the decision tree from.
         label (str): The dataset label column name.
-        visited (list): A list of visited features.
         tree (dict): The decision tree.
 
     Returns:
         str | dict: A dictionary representing the decision tree for the given dataset.
-    """    
-    feature = max_info_gain_feature(df, label)
-    tree[feature] = defaultdict(lambda: {})
+    """
+    f = max_info_gain_feature(df, label)
+    tree[f] = {}
+    subtree = tree[f]
     if _label_has_one_unique_value(df, label):
         return _get_first_label_value(df, label)
-    if feature not in visited:
-        visited.append(feature)
-        tree[feature] = {v: _id3(v_grp, label, visited, tree[feature][v]) for v, v_grp in df.groupby(feature)}
+    tree[f] = {v: _id3(_exclude_df_feature(v_grp, f), label, subtree.get(v, {})) for v, v_grp in df.groupby(f)}
     return tree
 
 
@@ -72,5 +69,9 @@ def _label_has_one_unique_value(df: pd.DataFrame, label: str) -> bool:
 
     Returns:
         bool: True if the label has only one unique value, False otherwise.
-    """    
+    """
     return len(df[label].unique()) == 1
+
+
+def _exclude_df_feature(df: pd.DataFrame, f: str) -> pd.DataFrame:
+    return df.loc[:, df.columns != f]
