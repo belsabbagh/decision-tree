@@ -16,7 +16,7 @@ def _eqn(val: float) -> float:
     Returns:
         float: x * log(x)
     """
-    return val * np.log10(val)
+    return val * np.log2(val)
 
 
 def _e(feat_val_df: pd.DataFrame, label: str) -> float:
@@ -33,7 +33,7 @@ def _e(feat_val_df: pd.DataFrame, label: str) -> float:
     return - sum([_eqn(len(i) / total) for n, i in feat_val_df.groupby(label)])
 
 
-def ep(df: pd.DataFrame, feature: str, label: str) -> float:
+def feature_entropy(df: pd.DataFrame, feature: str, label: str) -> float:
     """Calculates the sum of products of entropy and probability for all values of a feature.
 
     Args:
@@ -47,7 +47,7 @@ def ep(df: pd.DataFrame, feature: str, label: str) -> float:
 
 
 def p(df: pd.DataFrame, feature: str, feature_value: str) -> float:
-    """Calculates the probability of a feature value.
+    """Calculates the probability of occurrence of a feature value.
 
     Args:
         df (pd.DataFrame): The dataset to calculate the probability for.
@@ -69,6 +69,6 @@ def max_info_gain_feature(df: pd.DataFrame, label: str) -> str:
     Returns:
         str: The feature with the least entropy value
     """
-    entropy_values = dict(sorted({f: ep(df, f, label) for f in df}.items(), key=lambda x: x[1]))
+    entropy_values = dict(sorted({f: feature_entropy(df, f, label) for f in df}.items(), key=lambda x: x[1]))
     del entropy_values[label]
     return min(entropy_values, key=entropy_values.get)
