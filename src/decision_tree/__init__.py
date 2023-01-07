@@ -34,7 +34,6 @@ class DecisionTree:
             node = list(tree.keys())[0]
         values = tree[node]
         for value, subtree in values.items():
-            for v, v_grp in df[node].groupby(value):
-                if type(subtree) is dict:
-                    return DecisionTree.__traverse(exclude_df_col(v_grp, node), subtree)
-                return subtree
+            if type(subtree) is dict:
+                return DecisionTree.__traverse(exclude_df_col(df.loc[df[node] == value], node), subtree)
+            return subtree

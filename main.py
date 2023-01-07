@@ -10,6 +10,7 @@ if __name__ == '__main__':
     labels = df['Class']
     df = df.drop('Class', axis=1)
     tree = DecisionTree().fit(df, labels)
-    tree.save('out/id3-tree.json')
-    print(tree.predict(df.head(1)))
     print(tree)
+    tree.save('out/id3-tree.json')
+    res = tree.predict(df.head(1))
+    print(res)
