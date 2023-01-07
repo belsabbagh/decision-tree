@@ -4,23 +4,24 @@ This module contains the functions that build the decision tree using the id3 al
 
 import pandas as pd
 
-from src.id3.entropy import max_info_gain_feature
+from src.decision_tree.id3.entropy import max_info_gain_feature
+from src.decision_tree.util import exclude_df_col
 
 
-def build_decision_tree(df: pd.DataFrame, label: str) -> dict:
+def build_decision_tree(x: pd.DataFrame, y: pd.DataFrame) -> dict:
     """Builds a decision tree from a dataset.
 
     Args:
-        df (pd.DataFrame): The dataset to build the decision tree from.
-        label (str): The dataset label column name.
+        x (pd.DataFrame): The dataset feature columns.
+        y (pd.DataFrame): The dataset label column.
 
     Returns:
         dict:  A dictionary representing the decision tree for the given dataset.
     """
-    return _id3(df, label, {})
+    return _id3(x, y, {})
 
 
-def _id3(df: pd.DataFrame, label: str, tree: dict) -> str | dict:
+def _id3(x: pd.DataFrame, y: pd.DataFrame, tree: dict) -> str | dict:
     """The id3 algorithm that recursively builds the decision tree.
     The algorithm stops when all the features are visited or when the given dataset label has only one unique value.
     How it works:
@@ -31,23 +32,28 @@ def _id3(df: pd.DataFrame, label: str, tree: dict) -> str | dict:
     5. Return the tree.
 
     Args:
-        df (pd.DataFrame): The dataset to build the decision tree from.
-        label (str): The dataset label column name.
+        x (pd.DataFrame): The dataset feature columns.
+        y (pd.DataFrame): The dataset label column.
         tree (dict): The decision tree.
 
     Returns:
         str | dict: A dictionary representing the decision tree for the given dataset.
     """
-    if _label_has_one_unique_value(df, label):
-        return _get_first_label_value(df, label)
-    f = max_info_gain_feature(df, label)
+    if _label_has_one_unique_value(y):
+        return _get_first_label_value(y)
+    f = max_info_gain_feature(x, y)
     tree[f] = {}
-    for v, v_grp in df.groupby(f):
-        tree[f][v] = _id3(_exclude_df_feature(v_grp, f), label, tree[f].get(v, {}))
+    for v, v_grp in x.groupby(f):
+        indexes = list(v_grp.index.values)
+        tree[f][v] = _id3(
+            exclude_df_col(v_grp, f),
+            y[y.index.isin(indexes)],
+            tree[f].get(v, {})
+        )
     return tree
 
 
-def _get_first_label_value(df: pd.DataFrame, label: str) -> str:
+def _get_first_label_value(df: pd.DataFrame) -> str:
     """Gets the first label value.
 
     Args:
@@ -57,10 +63,10 @@ def _get_first_label_value(df: pd.DataFrame, label: str) -> str:
     Returns:
         str: The first label value.
     """
-    return df[label].unique()[0]
+    return df.unique()[0]
 
 
-def _label_has_one_unique_value(df: pd.DataFrame, label: str) -> bool:
+def _label_has_one_unique_value(df: pd.DataFrame) -> bool:
     """Checks if the label has only one unique value.
 
     Args:
@@ -70,8 +76,4 @@ def _label_has_one_unique_value(df: pd.DataFrame, label: str) -> bool:
     Returns:
         bool: True if the label has only one unique value, False otherwise.
     """
-    return len(df[label].unique()) == 1
-
-
-def _exclude_df_feature(df: pd.DataFrame, f: str) -> pd.DataFrame:
-    return df.loc[:, df.columns != f]
+    return len(df.unique()) == 1

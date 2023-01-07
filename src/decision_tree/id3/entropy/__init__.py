@@ -59,16 +59,20 @@ def p(df: pd.DataFrame, feature: str, feature_value: str) -> float:
     return len(df.loc[df[feature] == feature_value]) / len(df)
 
 
-def max_info_gain_feature(df: pd.DataFrame, label: str) -> str:
+def max_info_gain_feature(df: pd.DataFrame, y: pd.DataFrame) -> str:
     """Gets the feature with the least entropy in a dataset with respect to a label.
 
     Args:
         df (pd.DataFrame): The dataframe to calculate entropy for its features.
-        label (str): The dataframe label column name.
+        y (pd.DataFrame): The dataframe label column name.
 
     Returns:
         str: The feature with the least entropy value
     """
-    entropy_values = dict(sorted({f: feature_entropy(df, f, label) for f in df}.items(), key=lambda x: x[1]))
+    label = y.name
+    df.loc[:, label] = y
+    df = df.drop('index', axis=1)
+    entropy_values = dict(sorted(
+        {f: feature_entropy(df, f, label) for f in df}.items(), key=lambda x: x[1]))
     del entropy_values[label]
     return min(entropy_values, key=entropy_values.get)
