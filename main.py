@@ -1,3 +1,7 @@
+"""
+The main module.
+"""
+
 import pandas as pd
 
 from src.decision_tree.id3 import build_decision_tree
@@ -11,6 +15,6 @@ if __name__ == '__main__':
     df = df.drop('Class', axis=1)
     tree = DecisionTree().fit(df, labels)
     print(tree)
-    tree.save('out/id3-tree.json')
+    tree.save_json('out/id3-tree.json')
     res = tree.predict(df.head(1))
     print(res)
