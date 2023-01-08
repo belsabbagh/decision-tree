@@ -70,7 +70,8 @@ def max_info_gain_feature(df: pd.DataFrame, y: pd.DataFrame) -> str:
         str: The feature with the least entropy value
     """
     label = y.name
-    df.loc[:, label] = y
+    df = df.copy()
+    df.insert(0, label, y)
     df = df.drop('index', axis=1)
     entropy_values = dict(sorted(
         {f: feature_entropy(df, f, label) for f in df}.items(), key=lambda x: x[1]))
