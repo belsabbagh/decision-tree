@@ -20,6 +20,9 @@ class DecisionTree:
     def __repr__(self):
         return f'{{tree: {self.__tree}}}'
 
+    def __eq__(self, __o: object) -> bool:
+        return self.tree_to_dict() == __o.tree_to_dict()
+
     def fit(self, x, y):
         self.__tree = build_decision_tree(x, y)
         return self
@@ -27,10 +30,14 @@ class DecisionTree:
     def load_tree_json(self, path):
         with open(path, "r") as infile:
             self.__tree = json.loads(infile.read())
+        return self
 
     def save_json(self, path):
         with open(path, "w") as outfile:
             outfile.write(self.__tree_to_json())
+
+    def tree_to_dict(self) -> dict:
+        return self.__tree
 
     def __tree_to_json(self):
         return json.dumps(self.__tree, indent=4)

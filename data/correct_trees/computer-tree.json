@@ -1,0 +1,17 @@
+{
+    "Age": {
+        "Middle": "Yes",
+        "Old": {
+            "Credit": {
+                "Good": "No",
+                "Ok": "Yes"
+            }
+        },
+        "Young": {
+            "Student": {
+                "No": "No",
+                "Yes": "Yes"
+            }
+        }
+    }
+}

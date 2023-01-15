@@ -1,0 +1,27 @@
+{
+    "Size": {
+        "Big": "Dangerous",
+        "Middle": {
+            "Color": {
+                "Black": "No",
+                "Brown": {
+                    "Hair": {
+                        "Curls": "No",
+                        "Straight": "Dangerous"
+                    }
+                }
+            }
+        },
+        "Small": {
+            "Color": {
+                "Black": "No",
+                "Brown": {
+                    "Hair": {
+                        "Curls": "Dangerous",
+                        "Straight": "No"
+                    }
+                }
+            }
+        }
+    }
+}

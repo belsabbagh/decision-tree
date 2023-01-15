@@ -21,6 +21,4 @@ def base_test(csv_path: str, label_name: str, json_path: str) -> None:
     tree = DecisionTree().fit(df, labels)
     print(tree)
     tree.save_json(json_path)
-    res = [tree.predict(row) for _, row in df.iterrows()]
-    print(f"Accuracy: {len(res == labels) / len(labels)}")
-    return None
+    return tree

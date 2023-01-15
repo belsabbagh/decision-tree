@@ -20,17 +20,29 @@ def _eqn(val: float) -> float:
 
 
 def _e(feat_val_df: pd.DataFrame, label: str) -> float:
-    """Calculates the entropy for a feature value.
+    """Calculates the entropy for a dataframe.
 
     Args:
-        feat_val_df (pd.DataFrame): The
+        feat_val_df (pd.DataFrame): The dataframe
         label (str): The dataframe label column name.
 
     Returns:
         float: The entropy value for the feature value.
     """
-    total = len(feat_val_df)
-    return - sum([_eqn(len(i) / total) for n, i in feat_val_df.groupby(label)])
+    return _feature_value_entropy([len(i) for _, i in feat_val_df.groupby(label)])
+
+
+def _feature_value_entropy(values_per_label_value: list[int]) -> float:
+    """Calculates the entropy for a feature value.
+
+    Args:
+        values_per_label_value (list[int]): _description_
+
+    Returns:
+        float: The entropy value for the feature value.
+    """
+    total = sum(values_per_label_value)
+    return - sum([_eqn(i / total) for i in values_per_label_value])
 
 
 def feature_entropy(df: pd.DataFrame, feature: str, label: str) -> float:
