@@ -1,8 +1,11 @@
-from src.decision_tree import DecisionTree
+"""
+Tests for datasets.
+"""
 from test import base_test
 
 
 def test_bear():
+    """test the decision tree on bear.csv"""
     tree = base_test('data/bear.csv', 'Class', 'out/bear-tree.json')
     assert tree.tree_to_dict() == {
         "Size": {
@@ -34,6 +37,7 @@ def test_bear():
 
 
 def test_tennis():
+    """test the decision tree on tennis.csv"""
     tree = base_test('data/tennis.csv', 'Play', 'out/tennis-tree.json')
     assert tree.tree_to_dict() == {
         "Outlook": {
@@ -55,6 +59,7 @@ def test_tennis():
 
 
 def test_computer():
+    """test the decision tree on computer.csv"""
     tree = base_test('data/computer.csv', 'Buy', 'out/computer-tree.json')
     assert tree.tree_to_dict() == {
         "Age": {
