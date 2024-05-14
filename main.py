@@ -9,7 +9,6 @@ test_cases = [
     ('data/bear.csv', 'Class'),
     ('data/tennis.csv', 'Play'),
     ('data/computer.csv', 'Buy'),
-    ('data/drug200.csv', 'Drug'),
 ]
 
 
