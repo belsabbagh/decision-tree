@@ -1,11 +1,21 @@
 """
 The main module.
 """
-
+import os
 from test import base_test
 
 
+test_cases = [
+    ('data/bear.csv', 'Class'),
+    ('data/tennis.csv', 'Play'),
+    ('data/computer.csv', 'Buy'),
+    ('data/drug200.csv', 'Drug'),
+]
+
+
 if __name__ == '__main__':
-    base_test('data/bear.csv', 'Class', 'out/bear-tree.json')
-    base_test('data/tennis.csv', 'Play', 'out/tennis-tree.json')
-    base_test('data/computer.csv', 'Buy', 'out/computer-tree.json')
+    for csv_path, label_name in test_cases:
+        model = base_test(csv_path, label_name)
+        with open(os.path.join('out', f'{os.path.basename(csv_path)[:-4]}.txt'), 'w') as f:
+            f.write(model.pprint())
+

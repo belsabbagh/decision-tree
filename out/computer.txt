@@ -1,0 +1,15 @@
+Age
+  |-- Young
+     Student
+       |-- No
+          No
+       |-- Yes
+          Yes
+  |-- Middle
+     Yes
+  |-- Old
+     Credit
+       |-- Ok
+          Yes
+       |-- Good
+          No

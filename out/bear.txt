@@ -1,0 +1,23 @@
+Size
+  |-- Big
+     Dangerous
+  |-- Middle
+     Color
+       |-- Brown
+          Hair
+            |-- Curls
+               No
+            |-- Straight
+               Dangerous
+       |-- Black
+          No
+  |-- Small
+     Color
+       |-- Black
+          No
+       |-- Brown
+          Hair
+            |-- Curls
+               Dangerous
+            |-- Straight
+               No
